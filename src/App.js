@@ -34,20 +34,18 @@ function App() {
                     <Link to={"/movies"}>Movies</Link>  
                 </Nav.Link>
                 <Nav.Link>
-                    { user?(<span onClick = {logout}>Logout User</span>):(<Link to = {"/login"}>Log In</Link>
-                    )}
-                    </Nav.Link>
+                { user ? (<a>Logout User</a>) : (<Link to={"/login"}>Log In</Link>) }
+                </Nav.Link>
             </Nav>
             </Navbar.Collapse>
         </Navbar>
 
         {/* Switch and Route components to handle routing */}
         <Switch>
-          <Route exact path="/" component={MovieList} />
-          <Route path="/movies" component={MovieList} />
-          <Route path="/movies/:id/review" render={(props) => <AddReview {...props} user={user}/>} />
-          <Route path="/movies/:id" render={(props) => <Movie {...props} user={user}/>}  />
-          <Route path="/login" render={(props) => <Login {...props} login={login}/>}  />
+          <Route exact path={["/", "/movies"]} component={MovieList}></Route>
+          <Route path="/movies/:id/review" render={(props)=> <AddReview {...props} user={user}/> }></Route>
+          <Route path="/movies/:id/" render={(props) => <Movie {...props} user={user}/>}></Route>
+          <Route path="/login" render={(props) => <Login {...props} login={login}/>} ></Route>
           {/* ...other routes */}
       </Switch>
 

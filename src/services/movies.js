@@ -23,6 +23,9 @@ class MovieDataService{
     } ;
     
     static deleteReview(id, userId){ 
+        console.log("reviewid:" , id );
+        console.log("userid: " , userId);
+
         return axios.delete( "http://localhost:5000/api/v1/movies/review", {data:{review_id: id, user_id: userId}} ) 
     } ;
     

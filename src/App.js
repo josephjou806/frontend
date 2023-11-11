@@ -4,7 +4,7 @@ import React from "react";
 import {Switch, Route, Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Nav, Navbar} from 'react-bootstrap';
-
+import { useState } from 'react';
 
 import AddReview from './components/add-review';
 import MovieList from './components/movies-list';
@@ -13,6 +13,16 @@ import Login from './components/login';
 
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  async function login(user = null){   // default user to null
+    setUser(user);
+  }
+
+  async function logout(){
+    setUser(null);
+  }
+
   return (
     <div className="App">
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -24,12 +34,22 @@ function App() {
                     <Link to={"/movies"}>Movies</Link>  
                 </Nav.Link>
                 <Nav.Link>
-                    { true?(<span>Logout User</span>):(<Link to = {"/login"}>Log In</Link>
+                    { user?(<span onClick = {logout}>Logout User</span>):(<Link to = {"/login"}>Log In</Link>
                     )}
                     </Nav.Link>
             </Nav>
             </Navbar.Collapse>
         </Navbar>
+
+        {/* Switch and Route components to handle routing */}
+        <Switch>
+          <Route exact path="/" component={MovieList} />
+          <Route path="/movies" component={MovieList} />
+          <Route path="/movies/:id/review" render={(props) => <AddReview {...props} user={user}/>} />
+          <Route path="/movies/:id" render={(props) => <Movie {...props} user={user}/>}  />
+          <Route path="/login" render={(props) => <Login {...props} login={login}/>}  />
+          {/* ...other routes */}
+      </Switch>
 
     </div>
   );
